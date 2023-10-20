@@ -2,3 +2,15 @@ canvas {
   height: 100%;
   width: 100%;
 }
+
+#toolbar {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+
+  .icon {
+    cursor: pointer;
+  }
+}

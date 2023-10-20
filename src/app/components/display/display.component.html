@@ -1,13 +1,35 @@
-<!-- <div style="display: block">
-  <canvas
-    baseChart
-    width="400"
-    height="400"
-    [type]="'line'"
-    [data]="lineChartData"
-    [options]="lineChartOptions"
-    [legend]="lineChartLegend"
-  >
-  </canvas>
-</div> -->
-<div id="phaser_container"></div>
+<div id="container" *ngIf="vm$ | async as vm">
+  <div id="toolbar">
+    <div id="money">Available money: ¥{{ vm.money }}</div>
+    <div id="tick_icons" [hidden]="!vm.showBattleIcons">
+      <span
+        class="icon material-symbols-outlined"
+        *ngIf="vm.isPaused"
+        (click)="startStop()"
+        >play_arrow</span
+      >
+      <span
+        class="icon material-symbols-outlined"
+        *ngIf="!vm.isPaused"
+        (click)="startStop()"
+        >pause</span
+      >
+      <span
+        class="icon material-symbols-outlined"
+        *ngIf="vm.isPaused"
+        (click)="advance()"
+        >skip_next</span
+      >
+      <span id="turn">Current turn: {{ vm.currentTick }}</span>
+    </div>
+  </div>
+  <div id="phaser_container"></div>
+  <div [hidden]="true">
+    <div id="battle_africa">
+      <app-battle [regionKey]="region.africa"></app-battle>
+    </div>
+    <div id="battle_south_america">
+      <app-battle [regionKey]="region.south_america"></app-battle>
+    </div>
+  </div>
+</div>

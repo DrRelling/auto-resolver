@@ -1,16 +1,11 @@
 import { config } from '../config/config';
-import { world } from '../data/world';
-import { Threat } from './threat';
-declare const WinBox: any;
 
 export class PhaserScene extends Phaser.Scene {
   private worldMap?: Phaser.GameObjects.Image;
-  private broadcastChannel = new BroadcastChannel('control_panel');
-
-  private threats: Threat[] = [];
 
   constructor() {
     super({ key: 'main' });
+    (window as any).scene = this;
   }
 
   preload() {
@@ -26,10 +21,10 @@ export class PhaserScene extends Phaser.Scene {
     // this.addShine();
     // this.flashMap();
 
-    this.input.on('pointerdown', (pointer: { x: number; y: number }) => {
-      console.log(pointer.x, pointer.y);
-      console.log(this.textures.getPixel(pointer.x, pointer.y, 'worldmap'));
-    });
+    // this.input.on('pointerdown', (pointer: { x: number; y: number }) => {
+    //   console.log(pointer.x, pointer.y);
+    //   console.log(this.textures.getPixel(pointer.x, pointer.y, 'worldmap'));
+    // });
 
     this.add
       .text(midX, midY, 'Scanning...')
@@ -37,9 +32,6 @@ export class PhaserScene extends Phaser.Scene {
       .setFontSize(64)
       .setColor('#ffff00')
       .setAlign('Center');
-
-    this.broadcastChannel.onmessage = (ev) => this.addThreats(2);
-    this.addThreats(2);
   }
 
   override update() {
@@ -72,17 +64,5 @@ export class PhaserScene extends Phaser.Scene {
         this.worldMap?.setTint(value);
       },
     });
-  }
-
-  private addThreats(noOfThreats: number) {
-    const shuffledRegions = [...world.regionKeys]
-      .map((value) => ({ value, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value);
-
-    for (let i = 0; i < noOfThreats; i++) {
-      const region = shuffledRegions.pop();
-      this.threats.push(new Threat(this, region!))
-    }
   }
 }

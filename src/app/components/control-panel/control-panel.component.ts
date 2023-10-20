@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 export class ControlPanelComponent {
   public startRound(): void {
     const bc = new BroadcastChannel('control_panel');
-    bc.postMessage('hello')
+    bc.postMessage({startBattles: 2})
   }
 }
