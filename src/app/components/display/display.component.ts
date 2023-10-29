@@ -4,6 +4,7 @@ import { combineLatest, map } from 'rxjs';
 import { phaserConfig } from 'src/app/config/phaser-config.config';
 import { BattleState } from 'src/app/enums/battleState.enum';
 import { Region } from 'src/app/enums/region.enum';
+import { Message } from 'src/app/interfaces/message.interface';
 import { BattleService } from 'src/app/services/battle.service';
 import { MoneyService } from 'src/app/services/money.service';
 
@@ -26,6 +27,8 @@ export class DisplayComponent implements OnInit {
     ),
   });
 
+  private _broadcastChannel = new BroadcastChannel('control_panel');
+
   constructor(
     private _battleService: BattleService,
     private _moneyService: MoneyService
@@ -33,6 +36,12 @@ export class DisplayComponent implements OnInit {
 
   ngOnInit() {
     this.phaserGame = new Phaser.Game(phaserConfig);
+
+    this._broadcastChannel.onmessage = (msg: MessageEvent<Message>) => {
+      console.log(msg)
+      const scene = this.phaserGame?.scene.getAt(0);
+      this._battleService.addBattles(msg.data.battleData, scene);
+    };
   }
 
   @HostListener('document:keydown', ['$event'])

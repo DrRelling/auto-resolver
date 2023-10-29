@@ -1,6 +1,8 @@
 import { config } from '../config/config';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 
 export class PhaserScene extends Phaser.Scene {
+  public rexUI!: RexUIPlugin;
   private worldMap?: Phaser.GameObjects.Image;
 
   constructor() {
@@ -9,8 +11,11 @@ export class PhaserScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('worldmap', 'assets/continents.jpg');
+    this.load.image('worldmap', 'assets/world-map.jpg');
     this.load.image('red-dot', 'assets/red-dot.png');
+    this.load.image('popup_background', 'assets/popup_background.png');
+    this.load.image('btn', 'assets/btn.png');
+    this.load.image('btn_deploy', 'assets/buttons/btn_deploy.png');
   }
 
   create() {
@@ -33,17 +38,7 @@ export class PhaserScene extends Phaser.Scene {
       .setColor('#ffff00')
       .setAlign('Center');
   }
-
-  override update() {
-    // tween
-    // if (this.tintValue < 0xff0000 || this.tintValue > 0xffeeee) {
-    //   this.tintDirection = -this.tintDirection;
-    // }
-    // this.tintValue += this.tintDirection;
-    // console.log(this.tintValue, this.tintDirection);
-    // this.worldMap?.setTint(this.tintValue);
-  }
-
+  
   private addShine(): void {
     this.worldMap?.postFX.addShine(0.5, 0.2, 15);
   }

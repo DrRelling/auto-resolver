@@ -1,3 +1,7 @@
 export interface Message {
-    startBattles: number;
+  battleData: BattleData;
+}
+
+export interface BattleData {
+  regions: string[];
 }
