@@ -6,13 +6,21 @@ import { config } from '../config/config';
   providedIn: 'root',
 })
 export class MoneyService {
+  private static instance: MoneyService;
+  static getInstance() {
+    return MoneyService.instance;
+  }
+
   public totalMoney$ = new BehaviorSubject(config.game.startingMoney);
   public availableMoney$ = new BehaviorSubject(config.game.startingMoney);
 
   private _totalMoney = config.game.startingMoney;
   private _availableMoney = config.game.startingMoney;
 
-  constructor() {}
+  constructor() {
+    MoneyService.instance = this;
+
+  }
 
   public commitMoney(amount: number): void {
     this._availableMoney -= amount;

@@ -2,10 +2,7 @@ import Dialog from 'phaser3-rex-plugins/templates/ui/dialog/Dialog';
 import { config } from '../config/config';
 import { RegionData, world } from '../data/world';
 import { Region } from '../enums/region.enum';
-import { MoneyService } from '../services/money.service';
 import { PhaserScene } from './phaser-scene';
-import { GameObjects } from 'phaser';
-import GridSizer from 'phaser3-rex-plugins/templates/ui/gridsizer/GridSizer';
 import { GridSizerPlus } from '../utils/grid-sizer-plus';
 
 export class Battle {
@@ -18,7 +15,6 @@ export class Battle {
 
   constructor(
     regionKey: Region,
-    private _moneyService: MoneyService,
     private _scene: PhaserScene
   ) {
     this._region = world[regionKey];
@@ -76,9 +72,6 @@ export class Battle {
       fontSize: '20px',
       fontFamily: 'Orbitron',
     });
-    this._moneyService.availableMoney$.subscribe(
-      (amount) => (moneyText.text = 'Money: ' + amount.toString())
-    );
 
     const dialog = this._scene.rexUI.add
       .dialog({

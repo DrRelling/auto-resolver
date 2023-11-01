@@ -1,9 +1,11 @@
 import { config } from '../config/config';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import { Summary } from './summary';
 
 export class PhaserScene extends Phaser.Scene {
   public rexUI!: RexUIPlugin;
   private worldMap?: Phaser.GameObjects.Image;
+  private _summary?: Summary;
 
   constructor() {
     super({ key: 'main' });
@@ -11,14 +13,20 @@ export class PhaserScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('worldmap', 'assets/world-map.jpg');
+    this.load.image('worldmap', 'assets/continents.jpg'); //'assets/world-map.jpg');
     this.load.image('red-dot', 'assets/red-dot.png');
     this.load.image('popup_background', 'assets/popup_background.png');
     this.load.image('btn', 'assets/btn.png');
     this.load.image('btn_deploy', 'assets/buttons/btn_deploy.png');
+    this.load.scenePlugin({
+      key: 'rexuiplugin',
+      url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',
+      sceneKey: 'rexUI'
+  });
   }
 
   create() {
+    setTimeout(() => this._summary = new Summary(this), 0);
     const midX = config.screen.width / 2;
     const midY = config.screen.height / 2;
     this.worldMap = this.add.image(midX, midY, 'worldmap');

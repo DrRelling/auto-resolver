@@ -4,8 +4,10 @@ export const config = {
     timerInterval: 2000
   },
   screen: {
-    height: 2160,
-    width: 3840,
+    height: 800,
+    width: 1120
+    // height: 2160,
+    // width: 3840,
   },
   dialog: {
     height: 600,

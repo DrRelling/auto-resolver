@@ -13,6 +13,11 @@ import { MoneyService } from './money.service';
   providedIn: 'root',
 })
 export class BattleService {
+  private static instance: BattleService;
+  static getInstance() {
+    return BattleService.instance;
+  }
+  
   public battles: Battle[] = [];
   public state$ = new BehaviorSubject<BattleState>(BattleState.NONE);
   public isPaused$ = new BehaviorSubject<boolean>(true);
@@ -23,7 +28,9 @@ export class BattleService {
 
   private _tickerSubscription?: Subscription;
 
-  constructor(private _moneyService: MoneyService) {}
+  constructor() {
+    BattleService.instance = this;
+  }
 
   public startStopTimer(): void {
     if (this._isPaused) {
@@ -58,7 +65,7 @@ export class BattleService {
       return;
     }
     battleData.regions.forEach(
-      (region) => new Battle(region as Region, this._moneyService, scene as PhaserScene)
+      (region) => new Battle(region as Region, scene as PhaserScene)
     );
 
     this.state$.next(BattleState.PREP);
